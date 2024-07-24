@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "chamber_fix",
+  "version": "${version}",
+  "name": "chamber_fix",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "server",
+  "entrypoints": {
+    "server": [
+      "xyz.breadloaf.chamberfix.ChamberFix"
+    ]
+  },
+  "mixins": [
+    "chamber_fix.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "${minecraft_version}"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "xyz.breadloaf.chamberfix.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "VaultBlockEntityMixin",
+    "VaultBlockEntityMixin$ServerMixin",
+    "VaultServerDataAccessor"
+  ]
+}
