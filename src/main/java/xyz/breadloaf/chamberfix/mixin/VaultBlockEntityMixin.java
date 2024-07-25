@@ -38,14 +38,14 @@ public class VaultBlockEntityMixin extends BlockEntity {
     private void injectSaveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider, CallbackInfo ci) {
         HashMap<UUID, Long> reset_timers = VAULT_RESET_TIMERS.get(this.worldPosition);
         if (reset_timers != null) {
-            ListTag listTag = new ListTag();
+            ListTag resetTimers = new ListTag();
             for (Map.Entry<UUID, Long> entry : reset_timers.entrySet()) {
-                CompoundTag aaaa = new CompoundTag();
-                aaaa.putLong("time", entry.getValue());
-                aaaa.putUUID("uuid", entry.getKey());
-                listTag.add(aaaa);
+                CompoundTag playerEntry = new CompoundTag();
+                playerEntry.putLong("time", entry.getValue());
+                playerEntry.putUUID("uuid", entry.getKey());
+                resetTimers.add(playerEntry);
             }
-            compoundTag.put("reset_timers", listTag);
+            compoundTag.put("reset_timers", resetTimers);
         }
 
     }
@@ -55,10 +55,10 @@ public class VaultBlockEntityMixin extends BlockEntity {
         ListTag listTag = compoundTag.getList("reset_timers", 10); // 10 is the compound type
         HashMap<UUID, Long> reset_timers = new HashMap<>();
         for (int i = 0; i < listTag.size(); i++) {
-            CompoundTag aaaa = listTag.getCompound(i);
-            reset_timers.put(aaaa.getUUID("uuid"), aaaa.getLong("time"));
+            CompoundTag playerEntry = listTag.getCompound(i);
+            reset_timers.put(playerEntry.getUUID("uuid"), playerEntry.getLong("time"));
         }
-        VAULT_RESET_TIMERS.put(this.worldPosition, reset_timers);
+        VAULT_RESET_TIMERS.put(worldPosition, reset_timers);
     }
 
 
