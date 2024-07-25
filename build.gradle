@@ -36,6 +36,7 @@ dependencies {
     Set<String> fapiModules = [
             'fabric-api-base',
             'fabric-command-api-v2',
+            'fabric-resource-loader-v0'
     ]
     fapiModules.forEach {
         include(modImplementation(fabricApi.module(it, fabric_api_version)))
