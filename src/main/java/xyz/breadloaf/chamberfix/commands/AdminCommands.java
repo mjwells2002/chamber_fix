@@ -18,13 +18,13 @@ public class AdminCommands {
 
     @RequiresPermissionLevel(4)
     @Command("set_reset_time")
-    public void setResetTime(@Name("Reset Time") Time time) {
+    public void setResetTime(@Name("reset_time") Time time) {
         ChamberFix.CONFIG.resetTimeTicks.set(Long.valueOf(time.get())).save();
     }
 
     @RequiresPermissionLevel(4)
     @Command("reset")
-    public void resetPlayer(@Name("vault location") BlockPos pos, @Name("targets") Players players) {
+    public void resetPlayer(@Name("vault_location") BlockPos pos, @Name("targets") Players players) {
         for (Player player : players) {
             HashMap<UUID,Long> reset_timer = ChamberFix.VAULT_RESET_TIMERS.get(pos);
             if (reset_timer != null) {
