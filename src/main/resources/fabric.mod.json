@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "chamber_fix",
   "version": "${version}",
-  "name": "chamber_fix",
+  "name": "Chamber Fix",
   "description": "",
   "authors": [],
   "contact": {},
   "license": "All-Rights-Reserved",
-  "environment": "server",
+  "environment": "*",
   "entrypoints": {
-    "server": [
+    "main": [
       "xyz.breadloaf.chamberfix.ChamberFix"
     ]
   },
