@@ -9,13 +9,14 @@ import de.maxhenkel.admiral.arguments.Time;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import xyz.breadloaf.chamberfix.ChamberFix;
+import xyz.breadloaf.chamberfix.ResetTimestampHolder;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-
-import static xyz.breadloaf.chamberfix.ChamberFix.VAULT_RESET_TIMERS;
 
 @RequiresPermissionLevel(4)
 @Command("chamberfix")
@@ -31,8 +32,15 @@ public class AdminCommands {
     @RequiresPermissionLevel(4)
     @Command("reset")
     public int resetPlayer(CommandContext<CommandSourceStack> context, @Name("vault_location") BlockPos pos, @Name("targets") Players players) {
-        HashMap<UUID, Long> reset_timer = VAULT_RESET_TIMERS.computeIfAbsent(pos, p -> new HashMap<>());
-        int playersReset = (int) players.stream().map(player -> reset_timer.remove(player.getUUID())).filter(Objects::nonNull).count();
+        ServerLevel level = context.getSource().getLevel();
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+
+        if (!(blockEntity instanceof ResetTimestampHolder resetTimestampHolder)) {
+            context.getSource().sendFailure(Component.literal("Selected block is not a vault"));
+            return 0;
+        }
+        Map<UUID, Long> resetTimestamps = resetTimestampHolder.chamber_fix$getResetTimestamps();
+        int playersReset = (int) players.stream().map(player -> resetTimestamps.remove(player.getUUID())).filter(Objects::nonNull).count();
         context.getSource().sendSuccess(() -> Component.literal("Cooldown reset for %s player(s)".formatted(playersReset)), false);
         return playersReset;
     }
